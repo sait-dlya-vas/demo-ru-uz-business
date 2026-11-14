@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="description" content="Демонстрационный двуязычный сайт сервиса для дома и офиса.">
+<title>Таянч — демосайт</title>
+<script>
+  // Применяем тему до отрисовки, чтобы при обновлении не мигал фон.
+  try {
+    if (localStorage.getItem('tayanch.theme') === 'dark') document.documentElement.dataset.theme = 'dark';
+  } catch {}
+</script>
+<style>
+  :root { --bg:#fff; --ink:#000; --muted:#505050; --line:#737373; color-scheme:light }
+  :root[data-theme="dark"] { --bg:#000; --ink:#fff; --muted:#b9b9b9; --line:#8c8c8c; color-scheme:dark }
+  *,*::before,*::after { box-sizing:border-box }
+  html { scroll-behavior:smooth }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 system-ui,sans-serif }
+  a { color:inherit; text-underline-offset:.22em }
+  button { font:inherit; color:inherit; background:var(--bg); cursor:pointer }
+  :focus-visible { outline:2px solid var(--ink); outline-offset:4px }
+  h1,h2,h3,p,dl,dd { margin:0 }
+  .wrap { width:min(1120px,calc(100% - 48px)); margin-inline:auto }
+  header { border-bottom:1px solid var(--line) }
+  .bar { display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:76px }
+  .brand { display:inline-flex; align-items:center; gap:10px; font-weight:800; font-size:1.15rem; text-decoration:none }
+  .mark { display:grid; place-items:center; width:28px; height:28px; border:1px solid var(--ink); border-radius:6px; font-size:1rem; line-height:1 }
+  .badge,.eyebrow,.index { font-size:.72rem; letter-spacing:.13em; font-weight:750; text-transform:uppercase }
+  .badge { color:var(--muted); border:1px solid var(--line); padding:2px 7px; border-radius:4px }
+  nav,.controls,.actions { display:flex; align-items:center; gap:12px }
+  nav { gap:clamp(12px,2.4vw,32px) }
+  nav a { display:grid; align-items:center; min-height:44px; text-decoration:none; font-size:.92rem; white-space:nowrap }
+  nav a:hover { text-decoration:underline }
+  .switch { display:flex; border:1px solid var(--line); border-radius:8px }
+  .switch button { min-height:42px; min-width:42px; border:0; border-radius:6px; font-size:.8rem; font-weight:750; padding:0 9px }
+  .switch button[aria-pressed="true"],.primary { background:var(--ink); color:var(--bg) }
+  .switch .icon { font-size:1.1rem }
+  .hero { padding-block:clamp(52px,8vw,110px); display:grid; grid-template-columns:minmax(0,1fr) 210px; gap:36px; align-items:end }
+  .eyebrow,.index { color:var(--muted) }
+  h1 { font-size:clamp(2.4rem,6.5vw,5.65rem); line-height:1.02; letter-spacing:-.055em; max-width:840px; margin:16px 0 22px; text-wrap:balance; overflow-wrap:anywhere }
+  .intro,.section-copy { color:var(--muted); max-width:60ch }
+  .actions { flex-wrap:wrap; margin-top:24px }
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:48px; padding:9px 17px; border:1px solid var(--ink); border-radius:8px; font-weight:700; text-decoration:none }
+  .btn:hover { text-decoration:underline }
+  .stamp { border-left:1px solid var(--line); padding-left:18px; color:var(--muted); font-size:.9rem }
+  .stamp strong { display:block; color:var(--ink); font-size:1rem; margin-bottom:4px }
+  .section { border-top:1px solid var(--line); padding-block:clamp(32px,5vw,66px); scroll-margin-top:16px }
+  .heading { display:grid; grid-template-columns:38px minmax(0,1fr); gap:10px; align-items:baseline; margin-bottom:16px }
+  h2 { font-size:clamp(1.85rem,4vw,3rem); letter-spacing:-.045em; line-height:1.1 }
+  .cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:24px }
+  .card { border:1px solid var(--line); border-radius:12px; padding:clamp(18px,2.3vw,30px); display:flex; flex-direction:column; align-items:start }
+  .card h3 { margin:16px 0 8px; font-size:1.22rem; line-height:1.25 }
+  .card p { color:var(--muted); margin-bottom:20px }
+  .card strong { margin-top:auto }
+  .contact-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.8fr); gap:32px }
+  dl div { display:grid; grid-template-columns:minmax(85px,.35fr) minmax(0,1fr); gap:10px; border-bottom:1px solid var(--line); padding:12px 0 }
+  dt { font-weight:700 }
+  dd { overflow-wrap:anywhere }
+  .contact-grid .actions { margin-top:14px }
+  footer { border-top:1px solid var(--line); padding:24px 0; color:var(--muted); font-size:.9rem }
+  .foot { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px 24px }
+  .foot strong { color:var(--ink) }
+  dialog { max-width:min(440px,calc(100% - 36px)); border:1px solid var(--ink); border-radius:12px; padding:24px; background:var(--bg); color:var(--ink) }
+  dialog::backdrop { background:rgb(0 0 0 / .55) }
+  dialog p { margin-block:14px 20px }
+  .skip { position:absolute; inset:6px auto auto 6px; transform:translateY(-150%); z-index:1 }
+  .skip:focus { transform:none }
+  @media(max-width:900px) {
+    .hero { grid-template-columns:1fr; gap:24px }
+  }
+  @media(max-width:730px) {
+    .wrap { width:calc(100% - 32px) }
+    .bar { display:grid; grid-template-columns:1fr auto; gap:4px 8px; padding-top:10px }
+    nav { grid-row:2; grid-column:1/-1; justify-content:space-between; border-top:1px solid var(--line); margin-top:6px }
+    .controls { gap:5px }
+    .cards,.contact-grid { grid-template-columns:1fr }
+    .contact-grid { gap:20px }
+  }
+  @media(max-width:420px) { .bar { grid-template-columns:1fr } nav { grid-row:3 } }
+  @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto } }
+</style>
+</head>
+<body id="top">
+<a class="skip btn primary" href="#main" data-t="skip">К содержанию</a>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top"><span class="mark" aria-hidden="true">✦</span><span data-t="brand">Таянч</span><span class="badge" data-t="demo">Демо</span></a>
+    <nav data-label="nav">
+      <a href="#about" data-t="about">О нас</a><a href="#services" data-t="services">Услуги</a><a href="#contacts" data-t="contacts">Контакты</a>
+    </nav>
+    <div class="controls">
+      <div class="switch" role="group" data-label="langGroup">
+        <button type="button" data-lang="ru" aria-pressed="true">RU</button><button type="button" data-lang="uz" aria-pressed="false">UZ</button>
+      </div>
+      <div class="switch" role="group" data-label="themeGroup">
+        <button class="icon" type="button" data-mode="light" data-label="light" aria-pressed="true">☼</button><button class="icon" type="button" data-mode="dark" data-label="dark" aria-pressed="false">☾</button>
+      </div>
+    </div>
+  </div>
+</header>
+<main class="wrap" id="main" tabindex="-1">
+  <section class="hero" aria-labelledby="hero-title">
+    <div>
+      <p class="eyebrow" data-t="category">Сервис для дома и офиса</p>
+      <h1 id="hero-title" data-t="headline">Помощь в домашних делах</h1>
+      <p class="intro" data-t="intro">Поможем собрать мебель, повесить полки и справиться с мелким ремонтом. Объём работ и цену обсудим заранее.</p>
+      <div class="actions">
+        <a class="btn primary" href="tel:+12025550148"><span data-t="call">Позвонить</span><span aria-hidden="true">↗</span></a>
+        <a class="btn" href="#services"><span data-t="services">Услуги</span><span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+    <aside class="stamp"><strong data-t="sample">Пример сайта</strong><span data-t="notice">Компания, цены и контакты вымышлены.</span></aside>
+  </section>
+  <section id="about" class="section" aria-labelledby="about-title">
+    <div class="heading"><span class="index" aria-hidden="true">01</span><h2 id="about-title" data-t="about">О нас</h2></div>
+    <p class="section-copy" data-t="aboutCopy">«Таянч» — пример выездного сервиса для дома и небольших офисов. Клиент описывает задачу, а мастер уточняет детали и договаривается о времени визита.</p>
+  </section>
+  <section id="services" class="section" aria-labelledby="services-title">
+    <div class="heading"><span class="index" aria-hidden="true">02</span><h2 id="services-title" data-t="services">Услуги</h2></div>
+    <p class="section-copy" data-t="prices">Цены приведены для примера.</p>
+    <div class="cards">
+      <article class="card"><span class="index" aria-hidden="true">01 / 03</span><h3 data-t="service1">Мелкий ремонт</h3><p data-t="desc1">Подтянуть крепления, заменить ручки и отрегулировать дверцы.</p><strong data-t="price1">от 100 000 сумов</strong></article>
+      <article class="card"><span class="index" aria-hidden="true">02 / 03</span><h3 data-t="service2">Сборка мебели</h3><p data-t="desc2">Собрать стол, стеллаж или шкаф по инструкции производителя.</p><strong data-t="price2">от 200 000 сумов</strong></article>
+      <article class="card"><span class="index" aria-hidden="true">03 / 03</span><h3 data-t="service3">Монтаж полок</h3><p data-t="desc3">Разметить стену и закрепить полки на подходящих креплениях.</p><strong data-t="price3">от 300 000 сумов</strong></article>
+    </div>
+  </section>
+  <section id="contacts" class="section" aria-labelledby="contacts-title">
+    <div class="heading"><span class="index" aria-hidden="true">03</span><h2 id="contacts-title" data-t="contacts">Контакты</h2></div>
+    <div class="contact-grid">
+      <dl>
+        <div><dt data-t="phone">Телефон</dt><dd><a href="tel:+12025550148">+1 (202) 555-0148</a></dd></div>
+        <div><dt data-t="address">Адрес</dt><dd data-t="addressValue">г. Примерный, ул. Условная, 1</dd></div>
+        <div><dt data-t="hours">График</dt><dd data-t="hoursValue">Пн–сб, 09:00–18:00</dd></div>
+      </dl>
+      <div><p class="section-copy" data-t="contactNote">Это пример контактных данных. Номер не обслуживается, внешние ссылки не подключены.</p>
+        <div class="actions"><button class="btn" type="button" data-dialog="telegram" data-t="telegram">Telegram</button><a class="btn" href="#contacts" data-dialog="map" data-t="map">На карте</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap foot"><strong data-t="copyright">© 2026 Таянч. Демосайт.</strong><span data-t="translation">Узбекский перевод демонстрационный и требует утверждения заказчиком.</span></div></footer>
+<dialog aria-labelledby="dialog-title" aria-describedby="dialog-copy">
+  <h2 id="dialog-title"></h2><p id="dialog-copy"></p>
+  <form method="dialog"><button class="btn primary" data-t="close">Закрыть</button></form>
+</dialog>
+<script>
+  const translations = {
+    ru: {
+      title:'Таянч — демосайт', skip:'К содержанию', brand:'Таянч', demo:'Демо',
+      nav:'Основное меню', langGroup:'Язык сайта', themeGroup:'Тема сайта', light:'Светлая тема', dark:'Тёмная тема',
+      category:'Сервис для дома и офиса', headline:'Помощь в домашних делах',
+      intro:'Поможем собрать мебель, повесить полки и справиться с мелким ремонтом. Объём работ и цену обсудим заранее.',
+      call:'Позвонить', sample:'Пример сайта', notice:'Компания, цены и контакты вымышлены.',
+      about:'О нас', aboutCopy:'«Таянч» — пример выездного сервиса для дома и небольших офисов. Клиент описывает задачу, а мастер уточняет детали и договаривается о времени визита.',
+      services:'Услуги', prices:'Цены приведены для примера.',
+      service1:'Мелкий ремонт', desc1:'Подтянуть крепления, заменить ручки и отрегулировать дверцы.', price1:'от 100 000 сумов',
+      service2:'Сборка мебели', desc2:'Собрать стол, стеллаж или шкаф по инструкции производителя.', price2:'от 200 000 сумов',
+      service3:'Монтаж полок', desc3:'Разметить стену и закрепить полки на подходящих креплениях.', price3:'от 300 000 сумов',
+      contacts:'Контакты', phone:'Телефон', address:'Адрес', addressValue:'г. Примерный, ул. Условная, 1',
+      hours:'График', hoursValue:'Пн–сб, 09:00–18:00',
+      contactNote:'Это пример контактных данных. Номер не обслуживается, внешние ссылки не подключены.',
+      telegram:'Telegram', telegramInfo:'В рабочей версии здесь будет ссылка на Telegram компании.',
+      map:'На карте', mapInfo:'Адрес вымышленный. В рабочей версии здесь будет ссылка на карту с адресом компании.',
+      copyright:'© 2026 Таянч. Демосайт.', translation:'Узбекский перевод демонстрационный и требует утверждения заказчиком.', close:'Закрыть'
+    },
+    uz: {
+      title:'Tayanch — namuna sayt', skip:'Asosiy mazmunga o‘tish', brand:'Tayanch', demo:'Namuna',
+      nav:'Asosiy menyu', langGroup:'Sayt tili', themeGroup:'Sayt mavzusi', light:'Yorug‘ mavzu', dark:'Qorong‘i mavzu',
+      category:'Uy va ofis uchun xizmatlar', headline:'Uy yumushlarida yordam',
+      intro:'Mebel yig‘ish, tokcha o‘rnatish va mayda ta’mirlash ishlarida yordam beramiz. Ish hajmi va narxini oldindan kelishib olamiz.',
+      call:'Qo‘ng‘iroq qilish', sample:'Namuna sayt', notice:'Korxona, narxlar va aloqa ma’lumotlari namuna uchun keltirilgan.',
+      about:'Biz haqimizda', aboutCopy:'«Tayanch» — uy va kichik ofislarga borib xizmat ko‘rsatadigan korxona namunasi. Mijoz nima qilish kerakligini aytadi, usta esa tafsilotlarni aniqlab, tashrif vaqtini belgilaydi.',
+      services:'Xizmatlar', prices:'Narxlar namuna tariqasida keltirilgan.',
+      service1:'Mayda ta’mirlash', desc1:'Mahkamlagichlarni qotiramiz, tutqichlarni almashtiramiz va mebel eshiklarini sozlaymiz.', price1:'100 000 so‘mdan',
+      service2:'Mebel yig‘ish', desc2:'Stol, tokchali javon yoki shkafni ishlab chiqaruvchi yo‘riqnomasi bo‘yicha yig‘amiz.', price2:'200 000 so‘mdan',
+      service3:'Tokcha o‘rnatish', desc3:'Devorda joyini belgilab, tokchalarni mos mahkamlagichlar bilan o‘rnatamiz.', price3:'300 000 so‘mdan',
+      contacts:'Aloqa', phone:'Telefon', address:'Manzil', addressValue:'Namuna shahri, Shartli ko‘cha, 1-uy',
+      hours:'Ish vaqti', hoursValue:'Dushanba–shanba, 09:00–18:00',
+      contactNote:'Bu aloqa ma’lumotlari namuna uchun berilgan. Telefon raqami ishlamaydi, tashqi havolalar ulanmagan.',
+      telegram:'Telegram', telegramInfo:'Saytning ishchi talqinida bu yerda korxonaning Telegram sahifasiga havola bo‘ladi.',
+      map:'Xaritada ko‘rish', mapInfo:'Manzil to‘qima. Saytning ishchi talqinida bu yerda korxona manzili ko‘rsatilgan xaritaga havola bo‘ladi.',
+      copyright:'© 2026 Tayanch. Namuna sayt.', translation:'O‘zbekcha tarjima namuna uchun tayyorlangan. Uni buyurtmachi tasdiqlashi kerak.', close:'Yopish'
+    }
+  };
+  const read = key => { try { return localStorage.getItem('tayanch.' + key); } catch { return null; } };
+  const save = (key, value) => { try { localStorage.setItem('tayanch.' + key, value); } catch {} };
+  const root = document.documentElement;
+  const dialog = document.querySelector('dialog');
+  const langButtons = document.querySelectorAll('[data-lang]');
+  const themeButtons = document.querySelectorAll('[data-mode]');
+  let current = translations.ru;
+
+  function applyLanguage(lang) {
+    current = translations[lang];
+    root.lang = lang;
+    document.title = current.title;
+    document.querySelectorAll('[data-t]').forEach(el => { el.textContent = current[el.dataset.t]; });
+    document.querySelectorAll('[data-label]').forEach(el => el.setAttribute('aria-label', current[el.dataset.label]));
+    langButtons.forEach(el => el.setAttribute('aria-pressed', el.dataset.lang === lang));
+  }
+  function applyTheme(mode) {
+    root.dataset.theme = mode;
+    themeButtons.forEach(el => el.setAttribute('aria-pressed', el.dataset.mode === mode));
+  }
+  applyLanguage(read('lang') === 'uz' ? 'uz' : 'ru');
+  applyTheme(read('theme') === 'dark' ? 'dark' : 'light');
+  langButtons.forEach(el => el.addEventListener('click', () => {
+    applyLanguage(el.dataset.lang);
+    save('lang', el.dataset.lang);
+  }));
+  themeButtons.forEach(el => el.addEventListener('click', () => {
+    applyTheme(el.dataset.mode);
+    save('theme', el.dataset.mode);
+  }));
+  document.querySelectorAll('[data-dialog]').forEach(el => el.addEventListener('click', event => {
+    event.preventDefault();
+    const key = el.dataset.dialog;
+    document.querySelector('#dialog-title').textContent = current[key];
+    document.querySelector('#dialog-copy').textContent = current[key + 'Info'];
+    dialog.showModal();
+  }));
+</script>
+</body>
+</html>
